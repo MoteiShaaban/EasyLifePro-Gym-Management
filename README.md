@@ -1,151 +1,57 @@
 <div align="center">
 
-# 🏢 Commerce ERP & E-Commerce Platform
-### Enterprise Modular Monolith Architecture Case Study
+# 🏋️ Easy Life Pro - Enterprise Gym & Access Control Platform
+### Integrated Gym Management System, ZKTeco Biometric Control & Touch POS
 
-[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=.net)](https://dotnet.microsoft.com/)
-[![EF Core 10](https://img.shields.io/badge/EF_Core_10-512BD4?style=flat&logo=.net)](https://learn.microsoft.com/en-us/ef/core/)
-[![React](https://img.shields.io/badge/React-Admin-61DAFB?style=flat&logo=react)](https://react.dev/)
-[![SQL Server](https://img.shields.io/badge/SQL%20Server-Enterprise-CC2927?style=flat&logo=microsoft-sql-server)](https://www.microsoft.com/sql-server)
-[![Architecture](https://img.shields.io/badge/Architecture-Modular%20Monolith-blue)](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles)
+[![Live Web Portal](https://img.shields.io/badge/Live_Portal-xsportnablus.com-0078D4?style=flat&logo=firefox)](https://xsportnablus.com/)
+[![PHP Engine](https://img.shields.io/badge/PHP-8.x-777BB4?style=flat&logo=php)](https://www.php.net/)
+[![C# .NET](https://img.shields.io/badge/C%23-.NET%20Desktop-512BD4?style=flat&logo=dotnet)](https://dotnet.microsoft.com/)
+[![ZKTeco Hardware](https://img.shields.io/badge/Hardware-ZK9500%20SDK-orange)](#)
+[![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=flat&logo=mysql)](https://www.mysql.com/)
 
-*A production-grade, multi-tenant enterprise ERP and e-commerce backend platform engineered with .NET 10, Clean/Onion Architecture principles, and a modular monolith structure.*
+*A commercial-grade, multi-layered management platform deployed across sports facilities and health clubs. Combines a central PHP web engine with low-level C# .NET services for sub-second ZKTeco fingerprint verification, automated turnstile/door relays, secondary LCD display rendering, and an integrated touchscreen cafeteria POS.*
 
 </div>
 
 ---
 
-## 📖 Overview
+## 📖 System Overview
 
-**Commerce ERP** is a robust, scalable enterprise-grade resource planning system designed to manage complex business operations including Multi-currency General Ledger (Accounting), Inventory Control, Purchasing, Sales, Partner Relationships, and Multi-tenant Branch management.
+**Easy Life Pro** is an end-to-end operational and financial management ecosystem engineered for commercial gyms and athletic academies. The system bridges web-based management workflows with physical hardware controllers, automating biometric member verification, visit-based subscription passes ("Dukhoolyaat"), door relay access control, touchscreen point of sale transactions, and financial reporting.
 
-This repository serves as an **Architecture & Engineering Case Study** highlighting the backend design patterns, security layers, data isolation strategies, and modular structure implemented without exposing proprietary business logic.
+* **Production Live Portal:** [https://xsportnablus.com/](https://xsportnablus.com/)
+* **Project Type:** Closed-Source Commercial Architecture Case Study.
 
 ---
 
 ## 🏛️ System Architecture
 
-The solution follows a strict **Modular Monolith** structure per bounded context, separating concerns across Presentation, Application, Domain, and Infrastructure layers while sharing a single physical SQL Server database through isolated EF Core contexts.
+The application implements a hybrid architectural model: a central PHP application handles business logic and transactional data storage, while lightweight C# .NET desktop background services manage local hardware devices (ZK9500 scanners, door relays, and external secondary LCD displays).
 
 <p align="center">
-  <img src="./assets/architecture-diagram.png" alt="Architecture Diagram" width="90%" />
+  <img src="./assets/architecture-diagram.png" alt="System Architecture Diagram" width="90%" />
 </p>
 
-### Bounded Context Modules
+```mermaid
+flowchart TB
+    subgraph Hardware["Hardware Peripherals"]
+        ZK["ZK9500 Fingerprint Reader (USB)"]
+        Gate["Door Lock / Turnstile Relay Control"]
+        LCD["Secondary LCD Customer Display (Serial/USB)"]
+    end
 
-| Module | Core Responsibility | Persistence & Layers |
-|--------|---------------------|----------------------|
-| **Tenancy** | Multi-tenant company configuration | `TenancyDbContext` |
-| **Identity** | Users, Roles, JWT, Granular RBAC Permissions | `IdentityModuleDbContext` |
-| **Organization** | Branches, Cities, Warehouses & Context Service | `OrganizationDbContext` |
-| **Accounting** | Chart of Accounts (COA), GL, FX Rates, Funds | `AccountingDbContext` |
-| **Inventory** | Products, Categories, Brands, UOM conversions | `InventoryDbContext` |
-| **Partners** | Customers & Suppliers dual-role management | `PartnersDbContext` |
-| **Purchasing** | Purchase invoices, payments, vouchers, reconciliation | `PurchasingDbContext` |
+    subgraph Desktop["C# .NET Desktop Middleware"]
+        GateService["Access Control Verification Service"]
+    end
 
----
+    subgraph Backend["Core Web Engine & Database"]
+        PHP["PHP Web Application (APIs & Logic)"]
+        DB[("MySQL Database")]
+    end
 
-## 🖥️ UI & Interface Showcase
-
-Here are snapshots showcasing the React Admin Dashboard and functional modules of the ERP system:
-
-### 1. Main Dashboard & KPI Analytics
-<p align="center">
-  <img src="./assets/dashboard-preview.png" alt="Dashboard Preview" width="85%" />
-</p>
-*Overview of the administrative dashboard providing high-level KPIs, branch tracking, and responsive layout.*
-
----
-
-### 2. Chart of Accounts (COA) Tree Engine
-<p align="center">
-  <img src="./assets/coa-tree.png" alt="Chart of Accounts Tree" width="85%" />
-</p>
-<p align="center">
-  <img src="./assets/coa-tree2.png" alt="Chart of Accounts Detailed View" width="85%" />
-</p>
-*Hierarchical tree implementation supporting parent-child account nodes, leaf tracking, and automated balance aggregation.*
-
----
-
-### 3. Purchasing & Sales Operations
-<div align="center">
-  <table>
-    <tr>
-      <td width="50%" align="center"><b>Purchasing Module</b></td>
-      <td width="50%" align="center"><b>Sales Module</b></td>
-    </tr>
-    <tr>
-      <td><img src="./assets/purchasing.png" alt="Purchasing" width="100%" /></td>
-      <td><img src="./assets/sales.png" alt="Sales" width="100%" /></td>
-    </tr>
-  </table>
-</div>
-*Manage procurement cycles, vendor purchase orders, and sales distribution pipelines seamlessly.*
-
----
-
-### 4. Financial Transactions & Payments
-<div align="center">
-  <table>
-    <tr>
-      <td width="50%" align="center"><b>General Payment Voucher</b></td>
-      <td width="50%" align="center"><b>Vendor Payment Settlement</b></td>
-    </tr>
-    <tr>
-      <td><img src="./assets/Payment.png" alt="Payment" width="100%" /></td>
-      <td><img src="./assets/VendorPayment.png" alt="Vendor Payment" width="100%" /></td>
-    </tr>
-  </table>
-</div>
-*Double-entry accounting transaction handling with multi-currency support and automated ledger postings.*
-
----
-
-### 5. Product Catalog & Currency Exchange
-<div align="center">
-  <table>
-    <tr>
-      <td width="50%" align="center"><b>Product Management</b></td>
-      <td width="50%" align="center"><b>Multi-Currency & FX Rates</b></td>
-    </tr>
-    <tr>
-      <td><img src="./assets/Product.png" alt="Product Management" width="100%" /></td>
-      <td><img src="./assets/Currency.png" alt="Currency Management" width="100%" /></td>
-    </tr>
-  </table>
-</div>
-*Comprehensive product categorization with UOM configurations, alongside real-time foreign currency exchange rate handling.*
-
----
-
-## 🔒 Security & Access Control
-
-### Granular RBAC Permissions
-<p align="center">
-  <img src="./assets/Permission.png" alt="Permission Management" width="85%" />
-</p>
-*Dynamic permission-based authorization engine utilizing hierarchical reflection over module constants, enforced via custom middleware.*
-
-- **Authentication:** ASP.NET Core Identity + JWT Bearer tokens with custom claims (`TenantId`, `BranchId`, permissions).
-- **Branch Isolation:** `X-Branch-Id` HTTP header processed by `BranchAccessMiddleware` and injected via `IBranchContextService` to apply automatic EF Core query filters.
-- **Active User Validation:** `ActiveUserMiddleware` intercepts requests to instantly revoke stale JWT tokens if a user account is deactivated.
-
----
-
-## 🛠️ Key Technical Highlights
-
-1. **Modular .NET 10 Architecture:** Clean separation of concerns with domain models isolated from infrastructure.
-2. **Generic Repository & Per-Context Unit of Work:** Each bounded context manages its own transactional boundaries via dedicated `UnitOfWork` instances over 7 modular `DbContexts`.
-3. **Compile-Time Safe Mappings:** Zero AutoMapper runtime overhead; custom static extension methods handle DTO mapping explicitly for maximum performance and debug transparency.
-4. **FluentValidation Integration:** Robust asynchronous request validation with localized error handling (Arabic & English support).
-
----
-
-## 👨‍💻 Author
-
-**Motei Shaban**
-- Software Engineer & M.Sc. AI/ML Student @ Blekinge Institute of Technology (BTH)
-- Expertise: Enterprise Systems, .NET Core, Clean Architecture, Deep Learning
-
----
+    ZK -->|Live Template Capture| GateService
+    GateService -->|HTTP/REST Verification Request| PHP
+    PHP <--> DB
+    PHP -->|Validation Response: Approved / Denied| GateService
+    GateService -->|Pulse Electric Lock Signal| Gate
+    GateService -->|Render Status & Remaining Visits| LCD
